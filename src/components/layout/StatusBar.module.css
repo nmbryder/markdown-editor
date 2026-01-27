@@ -1,0 +1,23 @@
+.statusBar {
+  display: flex;
+  align-items: center;
+  height: var(--status-height);
+  padding: 0 12px;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  gap: 12px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.modified {
+  color: var(--warning);
+}
+
+.file {
+  color: var(--text-secondary);
+}

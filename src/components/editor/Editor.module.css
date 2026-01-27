@@ -1,0 +1,56 @@
+.editorWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.editor {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg-primary);
+}
+
+/* CodeMirror customization */
+.editor :global(.cm-editor) {
+  height: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-base);
+}
+
+.editor :global(.cm-scroller) {
+  overflow: auto;
+  padding: 16px 0;
+}
+
+.editor :global(.cm-content) {
+  padding: 0 20px;
+}
+
+.editor :global(.cm-line) {
+  padding: 0 4px;
+}
+
+.editor :global(.cm-gutters) {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.editor :global(.cm-activeLineGutter) {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.editor :global(.cm-activeLine) {
+  background: rgba(59, 130, 246, 0.06);
+}
+
+.editor :global(.cm-selectionBackground) {
+  background: rgba(59, 130, 246, 0.2) !important;
+}
+
+.editor :global(.cm-focused .cm-cursor) {
+  border-left-color: var(--accent);
+}
