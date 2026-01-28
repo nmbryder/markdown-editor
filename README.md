@@ -68,8 +68,4 @@ npm run tauri build
 - `npm run tauri build` build Tauri app bundle
 
 ## Notes
-- This is a desktop app, not a hosted web service.
 - DOCX export requires Pandoc installed and available on PATH.
-
-## License
-No license file is included in this repository.
