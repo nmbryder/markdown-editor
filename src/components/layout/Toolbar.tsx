@@ -13,6 +13,9 @@ import {
   Sun,
   PanelLeft,
   Download,
+  Columns2,
+  PenLine,
+  BookOpen,
 } from 'lucide-react';
 import { useUIStore, useEditorStore, useTabStore } from '../../store';
 import { useFileOperations } from '../../hooks';
@@ -21,7 +24,7 @@ import { IconButton, Dropdown } from '../ui';
 import styles from './Toolbar.module.css';
 
 export function Toolbar() {
-  const { theme, toggleTheme, toggleOutline } = useUIStore();
+  const { theme, toggleTheme, toggleOutline, viewMode, setViewMode } = useUIStore();
   const { applyBold, applyItalic, applyCode, applyLink, applyHeading, applyList, applyQuote, editorRef } =
     useEditorStore();
   const { handleNew, handleOpen, handleSave } = useFileOperations();
@@ -124,6 +127,27 @@ ${previewEl.innerHTML}
       <div className={styles.spacer} />
 
       <div className={styles.group}>
+        <IconButton
+          variant={viewMode === 'editor' ? 'default' : 'ghost'}
+          onClick={() => setViewMode('editor')}
+          title="Editor Only"
+        >
+          <PenLine size={18} />
+        </IconButton>
+        <IconButton
+          variant={viewMode === 'split' ? 'default' : 'ghost'}
+          onClick={() => setViewMode('split')}
+          title="Split View"
+        >
+          <Columns2 size={18} />
+        </IconButton>
+        <IconButton
+          variant={viewMode === 'preview' ? 'default' : 'ghost'}
+          onClick={() => setViewMode('preview')}
+          title="Preview Only"
+        >
+          <BookOpen size={18} />
+        </IconButton>
         <IconButton onClick={toggleTheme} title="Toggle Theme">
           {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </IconButton>

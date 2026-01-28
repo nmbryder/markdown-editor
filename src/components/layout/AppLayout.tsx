@@ -11,7 +11,7 @@ import { Outline } from '../outline/Outline';
 import styles from './AppLayout.module.css';
 
 export function AppLayout() {
-  const { editorPanelWidth, setEditorPanelWidth, theme, setTheme } = useUIStore();
+  const { editorPanelWidth, setEditorPanelWidth, theme, setTheme, viewMode } = useUIStore();
   const { tabs, createTab } = useTabStore();
   const { handleNew, handleOpen, handleSave } = useFileOperations();
   const mainContentRef = useRef<HTMLDivElement>(null);
@@ -45,7 +45,7 @@ export function AppLayout() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isResizingRef.current || !mainContentRef.current) return;
+      if (!isResizingRef.current || !mainContentRef.current || viewMode !== 'split') return;
 
       const rect = mainContentRef.current.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -66,7 +66,18 @@ export function AppLayout() {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [setEditorPanelWidth]);
+  }, [setEditorPanelWidth, viewMode]);
+
+  useEffect(() => {
+    if (viewMode === 'split') return;
+    isResizingRef.current = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  }, [viewMode]);
+
+  const showEditor = viewMode !== 'preview';
+  const showPreview = viewMode !== 'editor';
+  const isSplit = viewMode === 'split';
 
   return (
     <div className={styles.app}>
@@ -74,13 +85,23 @@ export function AppLayout() {
       <TabBar />
       <main ref={mainContentRef} className={styles.mainContent}>
         <Outline />
-        <div className={styles.editorPanel} style={{ flex: `0 0 ${editorPanelWidth}%` }}>
-          <Editor />
-        </div>
-        <ResizeHandle onMouseDown={handleResizeMouseDown} />
-        <div className={styles.previewPanel} style={{ flex: `0 0 ${100 - editorPanelWidth - 0.5}%` }}>
-          <Preview />
-        </div>
+        {showEditor && (
+          <div
+            className={styles.editorPanel}
+            style={{ flex: isSplit ? `0 0 ${editorPanelWidth}%` : '1 1 auto' }}
+          >
+            <Editor />
+          </div>
+        )}
+        {isSplit && <ResizeHandle onMouseDown={handleResizeMouseDown} />}
+        {showPreview && (
+          <div
+            className={styles.previewPanel}
+            style={{ flex: isSplit ? `0 0 ${100 - editorPanelWidth - 0.5}%` : '1 1 auto' }}
+          >
+            <Preview />
+          </div>
+        )}
       </main>
       <StatusBar />
     </div>

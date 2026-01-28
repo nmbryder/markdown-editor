@@ -1,4 +1,5 @@
 import { marked } from 'marked';
+import markedKatex from 'marked-katex-extension';
 import hljs from 'highlight.js';
 import type { HeadingItem } from '../types';
 
@@ -23,6 +24,11 @@ renderer.code = ({ text, lang }: { text: string; lang?: string }) => {
 };
 
 marked.use({ renderer });
+marked.use(
+  markedKatex({
+    throwOnError: false,
+  })
+);
 
 export function renderMarkdown(content: string): string {
   try {
